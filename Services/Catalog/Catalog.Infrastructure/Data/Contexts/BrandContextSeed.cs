@@ -1,0 +1,27 @@
+﻿using CatalogCore.Entities;
+using MongoDB.Driver;
+using System.Text.Json;
+
+namespace Catalog.Infrastructure.Data.Contexts
+{
+    public static class BrandContextSeed
+    {
+        public static async Task SeedDataAsync(IMongoCollection<ProductBrand> brandCollection)
+        {
+            var hasBrands = await brandCollection.Find(_ => true).AnyAsync();
+            if (hasBrands) return;
+            var filePath = Path.Combine("Data", "SeedData", "brands.json");
+            if (!File.Exists(filePath))
+            {
+                Console.WriteLine($"Seed File Does Not Exist : {filePath}");
+                return;
+            }
+            var brandData = await File.ReadAllTextAsync(filePath);
+            var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandData);
+            if (brands?.Any() is true)
+            {
+                brandCollection.InsertMany(brands);
+            }
+        }
+    }
+}

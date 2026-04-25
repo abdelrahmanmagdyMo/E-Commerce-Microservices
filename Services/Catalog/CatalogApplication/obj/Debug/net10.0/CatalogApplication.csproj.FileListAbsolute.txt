@@ -1,0 +1,15 @@
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\bin\Debug\net10.0\CatalogApplication.deps.json
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\bin\Debug\net10.0\CatalogApplication.dll
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\bin\Debug\net10.0\CatalogApplication.pdb
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.AssemblyInfoInputs.cache
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.AssemblyInfo.cs
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.csproj.CoreCompileInputs.cache
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.dll
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\refint\CatalogApplication.dll
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.pdb
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\ref\CatalogApplication.dll
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\bin\Debug\net10.0\CatalogCore.dll
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\bin\Debug\net10.0\CatalogCore.pdb
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogApplication.csproj.AssemblyReference.cache
+D:\Programming\E-Commerce\Services\Catalog\CatalogApplication\obj\Debug\net10.0\CatalogA.DBF92DFE.Up2Date
