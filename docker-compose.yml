@@ -1,28 +1,30 @@
 services:
   catalogapi:
-    image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Services/Catalog/CatalogApi/Dockerfile
     ports:
       - "8000:8000"
+       
     depends_on:
       - catalogDatabase
     environment:
-      - ASPNETCORE_URLS=http://+:8000
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8000
-      - DatabaseSettings__ConnectionString=mongodb://catalogDatabase:27017
-      - DatabaseSettings__DatabaseName=catalogDatabase
-      - DatabaseSettings__BrandsCollection=Brands
-      - DatabaseSettings__TypesCollection=Types
-      - DatabaseSettings__ProductsCollection=Products
+        ASPNETCORE_URLS: http://+:8000
+        ASPNETCORE_ENVIRONMENT: Development
+        ASPNETCORE_HTTP_PORTS: 8000
+        DatabaseSettings__ConnectionString: mongodb://catalogDatabase:27017
+        DatabaseSettings__DatabaseName: catalogDatabase
+        DatabaseSettings__BrandsCollection: Brands
+        DatabaseSettings__TypesCollection: Types
+        DatabaseSettings__ProductsCollection: Products
 
   catalogDatabase:
     image: mongo
     container_name: catalogDatabase
+    restart: always
     ports:
       - "27017:27017"
+                                    
     volumes:
       - catalogdata:/data/db
   basketdb:
@@ -30,19 +32,80 @@ services:
     container_name: basketdb
     restart: always
     ports:
-      - "6379:6379"
+        - "6379:6379"
+         
+                              
   basket.api:
-    image: ${DOCKER_REGISTRY-}basketapi
     build:
       context: .
       dockerfile: Services/Basket/Basket.Api/Dockerfile
+    restart: always
     ports:
-      - "8001:8000"
-    depends_on :
+         - "8001:8000"
+         
+    depends_on:
        - basketdb
     environment:
-      - ASPNETCORE_URLS=http://+:8000
-      - CacheSettings__ConnectionString=basketdb:6379
+       ASPNETCORE_URLS: http://+:8000
+       CacheSettings__ConnectionString: basketdb:6379
+  discountdb:
+      image: postgres
+      container_name: discountdb
+      environment:
+       - POSTGRES_USER=admin
+       - POSTGRES_PASSWORD=Password1
+       - POSTGRES_DB=DiscountDb
+      
+      restart: always
+      ports:
+        - "5432:5432"
+           
+      volumes:
+        - postgres_data:/var/lib/postgresql
+      healthcheck:
+       test: ["CMD-SHELL","pg_isready -U admin -d DiscountDb"]
+       interval: 10s
+       timeout: 5s
+       retries: 5
+       start_period: 30s
+  pgadmin:
+        image: dpage/pgadmin4
+        container_name: pgadmin
+        environment:
+          - PGADMIN_DEFAULT_EMAIL=admin@ecommerce.com 
+          - PGADMIN_DEFAULT_PASSWORD=Password1
+        restart: always
+        ports:
+           - "5050:80"
+           
+        volumes:
+          - pgadmin_data:/root/.pgadmin
+           
+  portainer:
+     image: portainer/portainer-ce
+     container_name: portainer
+     restart: always
+     ports:
+        - "9000:9000"
+     
+     volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data 
+  discount.api:
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Api/Dockerfile
+    container_name: discount.api
+    depends_on:
+        discountdb:
+            condition: service_healthy
+    environment:
+        ASPNETCORE_URLS: http://+:8000
+        DatabaseSettings__ConnectionString: Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password1;
+    ports:
+       - "8002:8000"
 volumes:
   catalogdata:
-
+  portainer_data:
+  postgres_data:
+  pgadmin_data:

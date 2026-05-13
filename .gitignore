@@ -1,0 +1,18 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build folders
+bin/
+obj/
+
+# Logs
+*.log
+
+# Docker temp
+obj/Docker/
+
+# OS files
+.DS_Store
+Thumbs.db
