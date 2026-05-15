@@ -1,9 +1,11 @@
 
 using Asp.Versioning;
+using Basket.Application.GrpcServices;
 using Basket.Application.Mappers;
 using Basket.Application.Queries;
 using Basket.Core.Repositories;
 using Basket.Infrastructure.Repositories;
+using Discount.gRPC.Protos;
 using System.Reflection;
 
 namespace Basket.Api
@@ -23,6 +25,12 @@ namespace Basket.Api
                     Assembly.GetAssembly(typeof(GetBasketByUserNameQuery)));
             });
             builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+            builder.Services.AddScoped<DiscountGrpcService>();
+            builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(cfg =>
+            {
+                cfg.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+            });
+
             builder.Services.AddSwaggerGen(op =>
             {
                 op.SwaggerDoc("v1", new Microsoft.OpenApi.OpenApiInfo()

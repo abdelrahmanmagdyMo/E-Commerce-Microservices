@@ -8,11 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.80.0" />
     <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Basket.Core\Basket.Core.csproj" />
   </ItemGroup>
-
+	<ItemGroup>
+		<Protobuf Include="..\..\..\Services\Discount\Discount.Application\Protos\discount.proto" Link="Protos\discount.proto" GrpcServices="Client" />
+	</ItemGroup>
 </Project>

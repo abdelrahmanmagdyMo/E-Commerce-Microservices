@@ -45,9 +45,12 @@ services:
          
     depends_on:
        - basketdb
+       - discount.api
     environment:
-       ASPNETCORE_URLS: http://+:8000
-       CacheSettings__ConnectionString: basketdb:6379
+       - ASPNETCORE_ENVIRONMENT=Development
+       - ASPNETCORE_URLS=http://+:8000
+       - CacheSettings__ConnectionString=basketdb:6379
+       - "GrpcSettings__DiscountUrl=http://discount.api:8000" 
   discountdb:
       image: postgres
       container_name: discountdb
@@ -91,7 +94,7 @@ services:
      volumes: 
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data 
-  discount.api:
+  discount.api: 
     build:
       context: .
       dockerfile: Services/Discount/Discount.Api/Dockerfile
@@ -101,6 +104,8 @@ services:
             condition: service_healthy
     environment:
         ASPNETCORE_URLS: http://+:8000
+        ASPNETCORE_ENVIRONMENT: Development   
+        Kestrel__EndpointDefaults__Protocols: Http2 
         DatabaseSettings__ConnectionString: Server=discountdb;Port=5432;Database=DiscountDb;User Id=admin;Password=Password1;
     ports:
        - "8002:8000"
