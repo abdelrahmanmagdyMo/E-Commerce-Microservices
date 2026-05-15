@@ -15,13 +15,13 @@ namespace Basket.Api.Controllers
         [ProducesResponseType(typeof(ShoppingCartResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ShoppingCartResponse>> GetBasket(string userName)
         {
-            var query = new GetBasketByUserNameQuery(userName);
+            var query = new GetBasketByUserNameQuery(userName.Trim());
             var basket = await mediator.Send(query);
             return Ok(basket);
         }
         [HttpPost("CreateBasket")]
         [ProducesResponseType(typeof(ShoppingCartResponse), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ShoppingCartResponse>> UpdatewBasket([FromBody] CreateShoppingCartCommand command)
+        public async Task<ActionResult<ShoppingCartResponse>> CreateBasket([FromBody] CreateShoppingCartCommand command)
         {
             var basket = await mediator.Send(command);
             return Ok(basket);

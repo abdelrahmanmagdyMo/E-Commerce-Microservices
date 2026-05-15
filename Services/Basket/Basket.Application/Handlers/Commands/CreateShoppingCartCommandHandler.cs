@@ -22,7 +22,7 @@ namespace Basket.Application.Handlers.Commands
             }
             var shoppingCart = await basketRepository.UpdateBasket(new ShoppingCart
             {
-                UserName = request.UserName,
+                UserName = request.UserName.Trim(),
                 Items = request.Items
             });
             var shoppingCartResponse = mapper.Map<ShoppingCartResponse>(shoppingCart);
